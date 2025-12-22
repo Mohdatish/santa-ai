@@ -1,0 +1,286 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    /* Snow White Background */
+    --background: 0 0% 98%;
+    --foreground: 220 20% 15%;
+
+    /* Cards - slightly warmer white */
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 15%;
+
+    /* Santa Red - Primary */
+    --primary: 0 69% 47%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Pine Green - Secondary */
+    --secondary: 150 69% 19%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Muted - Soft gray */
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 46%;
+
+    /* Gold Accent */
+    --accent: 43 66% 52%;
+    --accent-foreground: 220 20% 15%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders - subtle warm gray */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 0 69% 47%;
+
+    --radius: 1rem;
+
+    /* Custom tokens */
+    --snow: 0 0% 98%;
+    --gold: 43 66% 52%;
+    --gold-glow: 43 80% 70%;
+    --pine: 150 69% 19%;
+    --santa-red: 0 69% 47%;
+    --santa-red-dark: 0 69% 40%;
+    --cream: 40 40% 96%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(180deg, hsl(0 0% 98%) 0%, hsl(40 40% 96%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(43 66% 52%) 0%, hsl(43 80% 60%) 100%);
+    --gradient-red: linear-gradient(135deg, hsl(0 69% 47%) 0%, hsl(0 69% 55%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(40 30% 98%) 100%);
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -4px hsl(220 20% 15% / 0.08);
+    --shadow-medium: 0 8px 30px -6px hsl(220 20% 15% / 0.12);
+    --shadow-gold: 0 4px 20px -4px hsl(43 66% 52% / 0.4);
+    --shadow-red: 0 4px 20px -4px hsl(0 69% 47% / 0.3);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 0 69% 47%;
+  }
+
+  .dark {
+    --background: 220 20% 10%;
+    --foreground: 0 0% 98%;
+
+    --card: 220 20% 12%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 220 20% 12%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 69% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 150 50% 25%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 65%;
+
+    --accent: 43 66% 52%;
+    --accent-foreground: 220 20% 10%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 0 69% 55%;
+
+    --sidebar-background: 220 20% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 0 69% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 18%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 220 15% 20%;
+    --sidebar-ring: 0 69% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-accent to-gold-light bg-clip-text text-transparent;
+  }
+
+  .btn-glow {
+    @apply relative overflow-hidden;
+  }
+
+  .btn-glow::before {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: radial-gradient(circle at center, hsl(var(--gold) / 0.3) 0%, transparent 70%);
+  }
+
+  .btn-glow:hover::before {
+    @apply opacity-100;
+  }
+
+  .card-glow {
+    @apply relative;
+  }
+
+  .card-glow::before {
+    content: '';
+    @apply absolute -inset-1 rounded-2xl opacity-0 blur-xl transition-opacity duration-500;
+    background: linear-gradient(135deg, hsl(var(--gold) / 0.2) 0%, hsl(var(--primary) / 0.1) 100%);
+  }
+
+  .card-glow:hover::before {
+    @apply opacity-100;
+  }
+
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-xl border border-border/50;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .font-sans {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Snowfall animation */
+  @keyframes snowfall {
+    0% {
+      transform: translateY(-10vh) translateX(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) translateX(20px);
+      opacity: 0.3;
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes pulse-gold {
+    0%, 100% {
+      box-shadow: 0 0 0 0 hsl(var(--gold) / 0.4);
+    }
+    50% {
+      box-shadow: 0 0 20px 10px hsl(var(--gold) / 0);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  @keyframes wave {
+    0%, 100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(20deg);
+    }
+    75% {
+      transform: rotate(-15deg);
+    }
+  }
+
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scale-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-snowfall {
+    animation: snowfall linear infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-pulse-gold {
+    animation: pulse-gold 2s ease-in-out infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+    background-size: 200% 100%;
+  }
+
+  .animate-wave {
+    animation: wave 2s ease-in-out infinite;
+    transform-origin: 70% 70%;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.4s ease-out forwards;
+  }
+
+  .delay-100 { animation-delay: 0.1s; }
+  .delay-200 { animation-delay: 0.2s; }
+  .delay-300 { animation-delay: 0.3s; }
+  .delay-400 { animation-delay: 0.4s; }
+  .delay-500 { animation-delay: 0.5s; }
+}
