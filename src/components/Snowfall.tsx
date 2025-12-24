@@ -25,11 +25,11 @@ const Snowfall = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div className="fixed inset-0 pointer-events-none overflow-hidden z-10">
       {snowflakes.map((flake) => (
         <div
           key={flake.id}
-          className="absolute rounded-full bg-foreground/10 animate-snowfall"
+          className="absolute rounded-full bg-white animate-snowfall"
           style={{
             left: `${flake.left}%`,
             width: `${flake.size}px`,

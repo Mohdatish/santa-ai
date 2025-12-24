@@ -9,6 +9,47 @@ interface GiftRecommendationProps {
   onStartOver: () => void;
 }
 
+const getBudgetRange = (answer: string | undefined) => {
+  switch (answer) {
+    case "Under $25":
+      return [0, 25];
+    case "$25 - $50":
+      return [25, 50];
+    case "$50 - $100":
+      return [50, 100];
+    case "$100 - $200":
+      return [100, 200];
+    case "$200+":
+      return [200, Infinity];
+    case "Sky's the limit!":
+      return [0, Infinity];
+    default:
+      return [0, Infinity];
+  }
+};
+
+const parseGiftPriceRange = (price: string): [number, number] => {
+  const s = price.replace(/\$/g, "").trim();
+  if (s.includes("+")) {
+    const n = parseFloat(s.replace("+", "").trim());
+    return [isNaN(n) ? 0 : n, Infinity];
+  }
+  if (s.toLowerCase().startsWith("under")) {
+    const parts = s.match(/(\d+(\.\d+)?)/);
+    const n = parts ? parseFloat(parts[0]) : 0;
+    return [0, n];
+  }
+  if (s.includes("-")) {
+    const [a, b] = s.split("-").map((x) => parseFloat(x.trim()));
+    const min = isNaN(a) ? 0 : a;
+    const max = isNaN(b) ? min : b;
+    return [min, max];
+  }
+  const n = parseFloat(s);
+  const v = isNaN(n) ? 0 : n;
+  return [v, v];
+};
+
 const gifts = [
   {
     id: 1,
@@ -42,11 +83,16 @@ const GiftRecommendation = ({ answers, onProceed, onStartOver }: GiftRecommendat
   const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
-    // Simulate AI thinking
     const timer = setTimeout(() => {
-      // Select a random gift for demo
-      const randomGift = gifts[Math.floor(Math.random() * gifts.length)];
-      setSelectedGift(randomGift);
+      const [min, max] = getBudgetRange(answers[4]);
+      const filtered = gifts.filter((g) => {
+        const [gm, gx] = parseGiftPriceRange(g.price);
+        const avg = (gm + (isFinite(gx) ? gx : gm)) / 2;
+        return avg >= min && avg <= max;
+      });
+      const pool = filtered.length ? filtered : gifts;
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      setSelectedGift(pick);
       setIsLoading(false);
     }, 2500);
 

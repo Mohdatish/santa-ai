@@ -1,33 +1,58 @@
-import { ArrowRight, Sparkles, Star, Users, Gift, CheckCircle } from 'lucide-react';
+import { ArrowRight, Star, Gift, CheckCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { Button } from './ui/button';
 
 interface HeroSectionProps {
   onStartChat: () => void;
+  onOpenHow?: () => void;
 }
 
-const HeroSection = ({ onStartChat }: HeroSectionProps) => {
+const phrases = ['your mom', 'your dad', 'your spouse', 'your best friend', 'your boss', 'your child'];
+
+const HeroSection = ({ onStartChat, onOpenHow }: HeroSectionProps) => {
+  const [text, setText] = useState('');
+  const [dir, setDir] = useState<'forward' | 'backward'>('forward');
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    const current = phrases[idx];
+    let timeout: number;
+    if (dir === 'forward') {
+      if (text.length < current.length) {
+        timeout = window.setTimeout(() => setText(current.slice(0, text.length + 1)), 70);
+      } else {
+        timeout = window.setTimeout(() => setDir('backward'), 1000);
+      }
+    } else {
+      if (text.length > 0) {
+        timeout = window.setTimeout(() => setText(current.slice(0, text.length - 1)), 45);
+      } else {
+        timeout = window.setTimeout(() => {
+          setDir('forward');
+          setIdx((p) => (p + 1) % phrases.length);
+        }, 300);
+      }
+    }
+    return () => clearTimeout(timeout);
+  }, [text, dir, idx]);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
-      {/* Premium gradient background */}
-      <div className="absolute inset-0 bg-gradient-hero" />
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "url(/assets/toni.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-santa-red/20" />
       
-      {/* Decorative gradient orbs */}
-      <div className="absolute top-1/4 left-10 w-72 h-72 rounded-full bg-primary/5 blur-3xl animate-pulse" />
-      <div className="absolute bottom-1/4 right-10 w-96 h-96 rounded-full bg-accent/10 blur-3xl" />
-      <div className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full bg-secondary/5 blur-3xl" />
-      
-      {/* Grid pattern overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
-      
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-20">
         <div className="max-w-5xl mx-auto text-center">
           {/* Trust badge */}
           <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-card border border-border shadow-soft mb-8 hover:shadow-medium transition-shadow">
-            <div className="flex -space-x-2">
-              <div className="w-6 h-6 rounded-full bg-primary/20 border-2 border-card flex items-center justify-center text-xs">🎅</div>
-              <div className="w-6 h-6 rounded-full bg-secondary/20 border-2 border-card flex items-center justify-center text-xs">🎁</div>
-              <div className="w-6 h-6 rounded-full bg-accent/20 border-2 border-card flex items-center justify-center text-xs">✨</div>
-            </div>
             <span className="text-sm font-medium text-muted-foreground">
               Trusted by <span className="text-foreground font-semibold">50,000+</span> gift-givers
             </span>
@@ -39,34 +64,29 @@ const HeroSection = ({ onStartChat }: HeroSectionProps) => {
           </div>
 
           {/* Main headline */}
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-foreground mb-6 tracking-tight">
-            Find the{' '}
-            <span className="relative">
-              <span className="text-primary">Perfect Gift</span>
-              <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none">
-                <path d="M2 10C50 4 150 2 298 10" stroke="hsl(var(--accent))" strokeWidth="3" strokeLinecap="round"/>
-              </svg>
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 tracking-tight">
+            Find the perfect gift for{' '}
+            <span className="text-white">
+              {text}
+              <span className="type-caret">|</span>
             </span>
-            <br />
-            in 2 Minutes{' '}
-            <span className="inline-block animate-wave">🎅</span>
           </h1>
 
           {/* Subheadline */}
-          <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-white mb-10 max-w-3xl mx-auto leading-relaxed">
             Answer a few magical questions and our AI will find the{' '}
-            <span className="text-foreground font-semibold">perfect gift</span>{' '}
+            <span className="text-white font-semibold">perfect gift</span>{' '}
             for anyone on your list — personalized, thoughtful, and ready to buy.
           </p>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Button variant="hero" onClick={onStartChat} className="group text-lg">
-              Talk to Santa — It's Free
+              Start Gift Search
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button variant="hero-outline" asChild className="text-lg">
-              <a href="#how-it-works">See How it Works</a>
+            <Button variant="hero-outline" className="text-lg" onClick={onOpenHow}>
+              How It Works
             </Button>
           </div>
 
@@ -86,17 +106,7 @@ const HeroSection = ({ onStartChat }: HeroSectionProps) => {
             </div>
           </div>
         </div>
-
-        {/* Floating elements */}
-        <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 text-9xl animate-float opacity-10">
-          🎁
-        </div>
-        <div className="absolute top-1/4 left-[5%] text-5xl animate-float opacity-20 hidden lg:block" style={{ animationDelay: '0.5s' }}>
-          ✨
-        </div>
-        <div className="absolute top-1/3 right-[8%] text-4xl animate-float opacity-20 hidden lg:block" style={{ animationDelay: '1s' }}>
-          🎄
-        </div>
+        {/* Floating elements removed; snowfall provides ambience */}
       </div>
     </section>
   );

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Lock } from 'lucide-react';
 import { Button } from './ui/button';
 import SantaAvatar from './SantaAvatar';
 import { cn } from '@/lib/utils';
@@ -14,7 +14,7 @@ const questions: Question[] = [
   {
     id: 1,
     question: "Ho ho ho! Who are we finding a gift for today?",
-    options: ["Partner/Spouse", "Parent", "Friend", "Child", "Colleague", "Sibling"],
+    options: ["Spouse", "Parent", "Friend", "Child", "Colleague", "Sibling"],
   },
   {
     id: 2,
@@ -30,11 +30,6 @@ const questions: Question[] = [
     id: 4,
     question: "What's your budget for this magical gift?",
     options: ["Under $25", "$25 - $50", "$50 - $100", "$100 - $200", "$200+", "Sky's the limit!"],
-  },
-  {
-    id: 5,
-    question: "Any special occasion we're celebrating?",
-    options: ["Christmas 🎄", "Birthday 🎂", "Anniversary 💕", "Just Because 💝", "Thank You 🙏", "Graduation 🎓"],
   },
 ];
 
@@ -75,9 +70,7 @@ const QuestionFlow = ({ onComplete, onBack }: QuestionFlowProps) => {
 
   return (
     <section className="min-h-screen flex items-center justify-center py-20 px-4 bg-gradient-hero relative">
-      {/* Background decorations */}
-      <div className="absolute top-20 left-10 text-6xl opacity-10 animate-float">🎄</div>
-      <div className="absolute bottom-20 right-10 text-6xl opacity-10 animate-float delay-200">🎁</div>
+      {/* Background decorations removed */}
       
       <div className="w-full max-w-2xl">
         {/* Progress bar */}
@@ -147,8 +140,9 @@ const QuestionFlow = ({ onComplete, onBack }: QuestionFlowProps) => {
         </div>
 
         {/* Reassurance message */}
-        <p className="text-center text-sm text-muted-foreground mt-6">
-          🔒 Your answers help Santa find the perfect gift. No data is stored.
+        <p className="text-center text-sm text-muted-foreground mt-6 flex items-center justify-center gap-2">
+          <Lock className="w-4 h-4" />
+          Your answers help Santa find the perfect gift. No data is stored.
         </p>
       </div>
     </section>
