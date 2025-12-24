@@ -1,4 +1,4 @@
-import { ExternalLink, ArrowLeft, Sparkles } from 'lucide-react';
+import { ExternalLink, ArrowLeft, Sparkles, ShieldCheck, CreditCard, Truck, Package, Mail } from 'lucide-react';
 import { Button } from './ui/button';
 import SantaAvatar from './SantaAvatar';
 
@@ -81,9 +81,42 @@ const SantaWorkshop = ({ onBack, onStartOver }: SantaWorkshopProps) => {
 
             {/* Reassurance */}
             <div className="mt-8 p-4 rounded-2xl bg-muted/50 text-center">
-              <p className="text-sm text-muted-foreground">
-                🔒 You'll be redirected to a trusted partner store to complete your purchase securely.
-              </p>
+              <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+                <ShieldCheck className="w-4 h-4" />
+                <span>You'll be redirected to a trusted partner store to complete your purchase securely.</span>
+              </div>
+            </div>
+
+            {/* Delivery steps */}
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex items-start gap-3 bg-card rounded-2xl border border-border/50 p-4">
+                <CreditCard className="w-5 h-5 text-primary shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Secure Checkout</p>
+                  <p className="text-sm text-muted-foreground">Pay safely on the partner site with your preferred method.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 bg-card rounded-2xl border border-border/50 p-4">
+                <Truck className="w-5 h-5 text-primary shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Fast Shipping</p>
+                  <p className="text-sm text-muted-foreground">Choose delivery speed; orders ship directly to you or them.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 bg-card rounded-2xl border border-border/50 p-4">
+                <Mail className="w-5 h-5 text-primary shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Tracking Updates</p>
+                  <p className="text-sm text-muted-foreground">Receive tracking emails and delivery notifications.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 bg-card rounded-2xl border border-border/50 p-4">
+                <Package className="w-5 h-5 text-primary shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Hassle-Free Returns</p>
+                  <p className="text-sm text-muted-foreground">Easy returns and support handled by the partner store.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
